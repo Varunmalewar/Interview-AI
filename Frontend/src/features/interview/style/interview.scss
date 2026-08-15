@@ -1,34 +1,18 @@
-@use "sass:color";
-// ── Shared Variables (mirrors home.scss theme) ────────────────────────────────
-$bg-page: #0d1117;
-$bg-card: #161b22;
-$bg-panel: #1c2230;
-$bg-input: #1e2535;
-$border-color: #2a3348;
-$text-primary: #e6edf3;
-$text-muted: #7d8590;
-$accent: #ff2d78;
-$font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-
-// severity palette
-$severity-high: #ff4d4d;
-$severity-medium: #f5a623;
-$severity-low: #3fb950;
-
-*::-webkit-scrollbar {
-    display: none;
-}
+// ── Interview page layout (tabs/accordion/badges live in src/components/ui/) ──
+// Page-level shell only. The left nav (`.interview-nav__item*`) merges into
+// Tabs, question cards (`.q-card` shell/header/chevron) into Accordion, and
+// `.skill-tag*` / `.content-header__count` into Badge.
 
 // ── Page Shell ────────────────────────────────────────────────────────────────
 .interview-page {
     width: 100%;
     min-height: 100vh;
-    background-color: $bg-page;
-    color: $text-primary;
-    font-family: $font-stack;
+    background-color: var(--color-bg-page);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
     display: flex;
     align-items: stretch;
-    padding: 1.5rem;
+    padding: var(--space-5);
     box-sizing: border-box;
 }
 
@@ -36,17 +20,17 @@ $severity-low: #3fb950;
 .interview-layout {
     display: flex;
     width: 100%;
-    max-width: 1280px;
+    max-width: var(--container-max);
     margin: 0 auto;
-    background-color: $bg-card;
-    border: 1px solid $border-color;
-    border-radius: 1rem;
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
     justify-content: space-between;
 }
 
 .interview-divider {
     width: 1px;
-    background-color: $border-color;
+    background-color: var(--color-border);
     flex-shrink: 0;
 }
 
@@ -54,79 +38,36 @@ $severity-low: #3fb950;
 .interview-nav {
     width: 220px;
     flex-shrink: 0;
-    padding: 1.75rem 1rem;
+    padding: var(--space-5) var(--space-4);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 0.25rem;
-
-
-
+    gap: var(--space-1);
 
     &__label {
-        font-size: 0.7rem;
-        font-weight: 600;
+        font-size: var(--text-xs);
+        font-weight: var(--font-semibold);
         text-transform: uppercase;
         letter-spacing: 0.08em;
-        color: $text-muted;
-        padding: 0 0.75rem;
-        margin-bottom: 0.5rem;
+        color: var(--color-text-muted);
+        padding: 0 var(--space-3);
+        margin-bottom: var(--space-2);
     }
 
-    &__item {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
+    /* Tabs (replacing the old .interview-nav__item) — fill the nav column */
+    .ui-tablist[aria-orientation='vertical'] .ui-tab {
         width: 100%;
-        padding: 0.65rem 0.75rem;
-        background: none;
-        border: none;
-        border-radius: 0.5rem;
-        color: $text-muted;
-        font-family: $font-stack;
-        font-size: 0.875rem;
-        cursor: pointer;
-        text-align: left;
-        transition: background-color 0.15s, color 0.15s;
-
-        &:hover {
-            background-color: $bg-panel;
-            color: $text-primary;
-        }
-
-        &--active {
-            background-color: rgba($accent, 0.1);
-            color: $accent;
-
-            .interview-nav__icon svg {
-                stroke: $accent;
-            }
-        }
-    }
-
-    &__icon {
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
+        justify-content: flex-start;
     }
 }
 
 // ── Center Content ────────────────────────────────────────────────────────────
 .interview-content {
     flex: 1;
-    padding: 1.75rem 2rem;
+    padding: var(--space-5) var(--space-6);
     overflow-y: auto;
-    min-height: initial;
-    max-height: calc(100vh - 3rem);
-    padding-bottom: 5rem;
-    align-items: flex-start;
-
-
-
-
-
-
-
+    max-height: calc(100vh - (var(--space-5) * 2));
+    padding-bottom: var(--space-8);
 
     section {
         min-height: 100%;
@@ -136,129 +77,79 @@ $severity-low: #3fb950;
 .content-header {
     display: flex;
     align-items: baseline;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid $border-color;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
 
     h2 {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: $text-primary;
+        font-size: var(--text-lg);
+        font-weight: var(--font-bold);
+        color: var(--color-text-primary);
         margin: 0;
-    }
-
-    &__count {
-        font-size: 0.8rem;
-        color: $text-muted;
-        background-color: $bg-panel;
-        padding: 0.15rem 0.6rem;
-        border-radius: 2rem;
-        border: 1px solid $border-color;
     }
 }
 
-// ── Question Cards ────────────────────────────────────────────────────────────
+// ── Question Cards (shell restyled onto the Accordion) ────────────────────────
 .q-list {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: var(--space-3);
 }
 
 .q-card {
-    background-color: $bg-panel;
-    border: 1px solid $border-color;
-    border-radius: 0.6rem;
-    overflow: hidden;
-    transition: border-color 0.2s;
+    background-color: var(--color-bg-panel);
 
     &:hover {
-        border-color: color.adjust($border-color, $lightness: 8%);
+        border-color: var(--color-border-strong);
     }
 
-    &__header {
-        display: flex;
-        align-items: flex-start;
-        gap: 0.75rem;
-        padding: 0.9rem 1rem;
-        cursor: pointer;
-        user-select: none;
+    &.ui-accordion-item--open {
+        border-color: rgb(var(--color-accent-rgb) / 0.4);
+
+        .ui-accordion-item__chevron {
+            color: var(--color-accent);
+        }
     }
 
     &__index {
         flex-shrink: 0;
-        font-size: 0.7rem;
-        font-weight: 700;
-        color: $accent;
-        background-color: rgba($accent, 0.1);
-        border: 1px solid rgba($accent, 0.2);
-        border-radius: 0.3rem;
-        padding: 0.15rem 0.4rem;
-        margin-top: 2px;
+        font-size: var(--text-xs);
+        font-weight: var(--font-bold);
+        color: var(--color-accent);
+        background-color: rgb(var(--color-accent-rgb) / 0.1);
+        border: 1px solid rgb(var(--color-accent-rgb) / 0.2);
+        border-radius: var(--radius-sm);
+        padding: var(--space-1) var(--space-2);
     }
 
     &__question {
         flex: 1;
         margin: 0;
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: $text-primary;
-        line-height: 1.5;
-    }
-
-    &__chevron {
-        flex-shrink: 0;
-        color: $text-muted;
-        transition: transform 0.2s;
-        margin-top: 2px;
-
-        &--open {
-            transform: rotate(180deg);
-            color: $accent;
-        }
+        font-size: var(--text-sm);
+        font-weight: var(--font-medium);
+        color: var(--color-text-primary);
+        line-height: var(--leading-normal);
     }
 
     &__body {
-        padding: 0 1rem 1rem;
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
-        border-top: 1px solid $border-color;
-        padding-top: 0.75rem;
+        gap: var(--space-3);
+        border-top: 1px solid var(--color-border);
+        padding-top: var(--space-3);
     }
 
     &__section {
         display: flex;
         flex-direction: column;
-        gap: 0.4rem;
+        gap: var(--space-2);
 
         p {
             margin: 0;
-            font-size: 0.835rem;
-            color: color.adjust($text-muted, $lightness: 15%);
-            line-height: 1.6;
-        }
-    }
-
-    &__tag {
-        font-size: 0.68rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        padding: 0.15rem 0.5rem;
-        border-radius: 0.25rem;
-        width: fit-content;
-
-        &--intention {
-            color: #a78bfa;
-            background-color: rgba(#a78bfa, 0.1);
-            border: 1px solid rgba(#a78bfa, 0.2);
-        }
-
-        &--answer {
-            color: #3fb950;
-            background-color: rgba(#3fb950, 0.1);
-            border: 1px solid rgba(#3fb950, 0.2);
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            line-height: var(--leading-relaxed);
         }
     }
 }
@@ -278,7 +169,11 @@ $severity-low: #3fb950;
         top: 0;
         bottom: 0;
         width: 2px;
-        background: linear-gradient(to bottom, $accent, rgba($accent, 0.1));
+        background: linear-gradient(
+            to bottom,
+            var(--color-accent),
+            rgb(var(--color-accent-rgb) / 0.1)
+        );
         border-radius: 1px;
     }
 }
@@ -286,8 +181,8 @@ $severity-low: #3fb950;
 .roadmap-day {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.75rem 0 0.75rem 3.5rem;
+    gap: var(--space-2);
+    padding: var(--space-3) 0 var(--space-3) 3.5rem;
     position: relative;
 
     // dot on timeline
@@ -299,31 +194,31 @@ $severity-low: #3fb950;
         width: 14px;
         height: 14px;
         border-radius: 50%;
-        background-color: $bg-card;
-        border: 2px solid $accent;
+        background-color: var(--color-bg-card);
+        border: 2px solid var(--color-accent);
     }
 
     &__header {
         display: flex;
         align-items: center;
-        gap: 0.6rem;
+        gap: var(--space-2);
     }
 
     &__badge {
-        font-size: 0.7rem;
-        font-weight: 700;
-        color: $accent;
-        background-color: rgba($accent, 0.1);
-        border: 1px solid rgba($accent, 0.25);
-        padding: 0.1rem 0.5rem;
-        border-radius: 2rem;
+        font-size: var(--text-xs);
+        font-weight: var(--font-bold);
+        color: var(--color-accent);
+        background-color: rgb(var(--color-accent-rgb) / 0.1);
+        border: 1px solid rgb(var(--color-accent-rgb) / 0.25);
+        padding: var(--space-1) var(--space-2);
+        border-radius: var(--radius-full);
     }
 
     &__focus {
         margin: 0;
-        font-size: 0.95rem;
-        font-weight: 600;
-        color: $text-primary;
+        font-size: var(--text-md);
+        font-weight: var(--font-semibold);
+        color: var(--color-text-primary);
     }
 
     &__tasks {
@@ -332,15 +227,15 @@ $severity-low: #3fb950;
         padding: 0;
         display: flex;
         flex-direction: column;
-        gap: 0.35rem;
+        gap: var(--space-1);
 
         li {
             display: flex;
             align-items: flex-start;
-            gap: 0.5rem;
-            font-size: 0.845rem;
-            color: color.adjust($text-muted, $lightness: 12%);
-            line-height: 1.5;
+            gap: var(--space-2);
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            line-height: var(--leading-normal);
         }
     }
 
@@ -349,7 +244,7 @@ $severity-low: #3fb950;
         width: 5px;
         height: 5px;
         border-radius: 50%;
-        background-color: $text-muted;
+        background-color: var(--color-text-muted);
         margin-top: 8px;
     }
 }
@@ -358,15 +253,15 @@ $severity-low: #3fb950;
 .interview-sidebar {
     width: 240px;
     flex-shrink: 0;
-    padding: 1.75rem 1.25rem;
+    padding: var(--space-5) var(--space-4);
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: var(--space-4);
 }
 
 .sidebar-divider {
     height: 1px;
-    background-color: $border-color;
+    background-color: var(--color-border);
 }
 
 // Match Score
@@ -374,14 +269,14 @@ $severity-low: #3fb950;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.6rem;
+    gap: var(--space-2);
 
     &__label {
-        font-size: 0.75rem;
-        font-weight: 600;
+        font-size: var(--text-xs);
+        font-weight: var(--font-semibold);
         text-transform: uppercase;
         letter-spacing: 0.08em;
-        color: $text-muted;
+        color: var(--color-text-muted);
         margin: 0;
         align-self: flex-start;
     }
@@ -397,35 +292,35 @@ $severity-low: #3fb950;
         border: 4px solid;
 
         &.score--high {
-            border-color: $severity-low;
+            border-color: var(--color-success);
         }
 
         &.score--mid {
-            border-color: $severity-medium;
+            border-color: var(--color-warning);
         }
 
         &.score--low {
-            border-color: $severity-high;
+            border-color: var(--color-danger);
         }
     }
 
     &__value {
-        font-size: 1.6rem;
-        font-weight: 800;
-        color: $text-primary;
-        line-height: 1;
+        font-size: var(--text-2xl);
+        font-weight: var(--font-bold);
+        color: var(--color-text-primary);
+        line-height: var(--leading-none);
     }
 
     &__pct {
-        font-size: 0.75rem;
-        color: $text-muted;
+        font-size: var(--text-xs);
+        color: var(--color-text-muted);
         margin-top: -2px;
     }
 
     &__sub {
         margin: 0;
-        font-size: 0.75rem;
-        color: $severity-low;
+        font-size: var(--text-xs);
+        color: var(--color-success);
         text-align: center;
     }
 }
@@ -434,47 +329,80 @@ $severity-low: #3fb950;
 .skill-gaps {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: var(--space-3);
 
     &__label {
-        font-size: 0.75rem;
-        font-weight: 600;
+        font-size: var(--text-xs);
+        font-weight: var(--font-semibold);
         text-transform: uppercase;
         letter-spacing: 0.08em;
-        color: $text-muted;
+        color: var(--color-text-muted);
         margin: 0;
     }
 
     &__list {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.5rem;
+        gap: var(--space-2);
     }
 }
 
-.skill-tag {
-    font-size: 0.775rem;
-    font-weight: 500;
-    padding: 0.3rem 0.7rem;
-    border-radius: 0.4rem;
-    border: 1px solid;
-    cursor: default;
-
-    &--high {
-        color: $severity-high;
-        background-color: rgba($severity-high, 0.1);
-        border-color: rgba($severity-high, 0.25);
+// ── Responsive ────────────────────────────────────────────────────────────────
+// `isMobile` in Interview.jsx flips the TabList to horizontal at 767px; these
+// rules restructure the 3 columns into a single scrollable column + top tab bar.
+@media (max-width: 767px) {
+    .interview-page {
+        padding: var(--space-3);
     }
 
-    &--medium {
-        color: $severity-medium;
-        background-color: rgba($severity-medium, 0.1);
-        border-color: rgba($severity-medium, 0.25);
+    .interview-layout {
+        flex-direction: column;
+        border-radius: var(--radius-lg);
     }
 
-    &--low {
-        color: $severity-low;
-        background-color: rgba($severity-low, 0.1);
-        border-color: rgba($severity-low, 0.25);
+    .interview-divider {
+        width: 100%;
+        height: 1px;
+    }
+
+    .interview-nav {
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        padding: var(--space-3);
+        gap: var(--space-3);
+
+        .nav-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* The "Sections" label hides — the tab bar speaks for itself */
+        .interview-nav__label {
+            display: none;
+        }
+
+        /* Horizontal TabList is scrollable (scrollbar hidden in tabs.scss) */
+        .ui-tablist[aria-orientation='horizontal'] {
+            overflow-x: auto;
+        }
+
+        /* Keep the Download button compact at the far right */
+        > .ui-button {
+            flex-shrink: 0;
+        }
+    }
+
+    .interview-content {
+        max-height: none;
+        padding: var(--space-4);
+    }
+
+    .interview-sidebar {
+        width: 100%;
+        padding: var(--space-4);
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
     }
 }

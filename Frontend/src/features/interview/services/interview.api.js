@@ -1,7 +1,10 @@
 import axios from "axios";
 
+// Dev: the Vite dev server proxies /api/* to the backend (see vite.config.js),
+// so calls are same-origin — no CORS, cookies just work.
+// Production: build with VITE_API_URL=https://your-api-host to point at the API.
 const api = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: import.meta.env.VITE_API_URL || "/",
     withCredentials: true,
 })
 

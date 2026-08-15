@@ -51,11 +51,13 @@ export const useAuth = () => {
     let error = null;
     try {
       data = await logout();
-      setUser(null);
     } catch (err) {
       console.error("Logout failed", err);
       error = err.response?.data?.message || err.message || "Logout failed";
     } finally {
+      // Always clear the local session, even if the API call fails,
+      // so the user is not left in a half-logged-out state.
+      setUser(null);
       setLoading(false);
     }
 

@@ -10,7 +10,13 @@ export default defineConfig([
     files: ['**/*.{js,jsx}'],
     extends: [
       js.configs.recommended,
-      reactHooks.configs.flat.recommended,
+      // eslint-plugin-react-hooks v5's "recommended" config uses the legacy
+      // string-shorthand "plugins" array, which this ESLint version rejects.
+      // Expand it manually into the flat object form instead.
+      {
+        plugins: { 'react-hooks': reactHooks },
+        rules: reactHooks.configs.recommended.rules,
+      },
       reactRefresh.configs.vite,
     ],
     languageOptions: {

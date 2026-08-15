@@ -20,10 +20,10 @@ authRouter.post("/login", loginUserController)
 
 /**
  * @route GET /api/auth/logout
- * @desc clear token from user cookie and add to the blacklist 
- * @access Public
+ * @desc clear token from user cookie and add to the blacklist
+ * @access Private
  */
-authRouter.get("/logout", logoutUserController)
+authRouter.get("/logout", authUser, logoutUserController)
 
 /**
  * @route GET /api/auth/get-me

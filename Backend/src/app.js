@@ -6,8 +6,15 @@ const app = express()
 
 app.use(express.json())
 app.use(cookieParser())
+
+// Allow the frontend origin(s). Defaults to the local Vite dev server,
+// override with CLIENT_URL (comma-separated for multiple origins) in .env.
+const allowedOrigins = process.env.CLIENT_URL
+    ? process.env.CLIENT_URL.split(",").map((origin) => origin.trim()).filter(Boolean)
+    : ["http://localhost:5173"]
+
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: allowedOrigins.length === 1 ? allowedOrigins[0] : allowedOrigins,
     credentials: true
 }))
 

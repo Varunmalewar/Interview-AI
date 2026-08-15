@@ -1,3 +1,6 @@
+/* eslint-disable react-refresh/only-export-components */
+// Context and provider intentionally live together; fast refresh on the
+// context value is acceptable for this app.
 import { createContext,useState } from "react";
 
 

@@ -7,8 +7,10 @@ const blackListTokenSchema = new mongoose.Schema({
     },
     createdAt : {
         type : Date,
-        default : Date.now
-        // expires : 60*60*24
+        default : Date.now,
+        // Auto-expire blacklisted tokens after 24 hours (matches JWT lifetime)
+        // so the collection does not grow unbounded. MongoDB TTL index cleans these up.
+        expires : 60 * 60 * 24
     }
 })
 

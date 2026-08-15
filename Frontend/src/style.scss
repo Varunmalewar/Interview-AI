@@ -1,18 +1,3 @@
-@use "./styles/button.scss";
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    
-}
-
-html,
-body,
-#root{
-    width :100%;
-    background-color: #272626;
-    color : whitesmoke;
-    font-family: sans-serif;
-
-
-}
+/* Load order matters (Dart Sass): @use must be the first statement. */
+@use "./styles/tokens.scss";
+@use "./styles/global.scss";
