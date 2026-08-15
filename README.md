@@ -5,7 +5,7 @@
 
 An end-to-end full-stack web application that leverages **Google Gemini Generative AI** to analyze your resume and target job descriptions, generating tailored interview strategies, technical/behavioral question banks, skill gap analyses, day-wise roadmaps, and ATS-optimized tailored resumes.
 
-🔗 **Live Application URL**: [https://interview-aj80ezhm7-varuns-projects-05a00148.vercel.app/](https://interview-aj80ezhm7-varuns-projects-05a00148.vercel.app/)
+🔗 **Live Application URL**: [https://interview-ai-phi-one.vercel.app/)
 
 ---
 
