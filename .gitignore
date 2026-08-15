@@ -19,3 +19,6 @@ build/
 Thumbs.db
 .vscode/
 .idea/
+decision.md
+flow.md
+.agents/mcp_config.json
