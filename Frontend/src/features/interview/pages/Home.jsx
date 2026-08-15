@@ -22,6 +22,9 @@ const Home = () => {
     const navigate = useNavigate()
     const toast = useToast()
 
+    // Readiness badge tone matches the Progress dashboard's score ring.
+    const readinessTone = (score) => (score >= 80 ? 'high' : score >= 60 ? 'mid' : 'low')
+
     const handleGenerateReport = async () => {
         if (!resumeFile && !selfDescription.trim()) {
             toast.error('Add a resume or a short self-description to continue')
@@ -194,6 +197,11 @@ const Home = () => {
                                         <p className='match-score'>
                                             Match Score: {report.matchScore}%
                                         </p>
+                                        {report.readiness != null && (
+                                            <p className={`readiness readiness--${readinessTone(report.readiness)}`}>
+                                                Readiness: {report.readiness}%
+                                            </p>
+                                        )}
                                     </Card>
                                 </li>
                             ))}

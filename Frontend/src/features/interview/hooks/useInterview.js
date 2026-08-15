@@ -1,4 +1,4 @@
-import { getAllInterviewReports, generateInterviewReport, getInterviewReportById, generateResumePdf } from "../services/interview.api"
+import { getAllInterviewReports, generateInterviewReport, getInterviewReportById, generateResumePdf, evaluateAnswer, transcribeAudio, getPracticeStats as fetchPracticeStats, getPracticeAttempts as fetchPracticeAttempts } from "../services/interview.api"
 import { useCallback, useContext, useEffect } from "react"
 import { InterviewContext } from "../Interviewcontext.jsx"
 import { useParams } from "react-router"
@@ -75,6 +75,52 @@ export const useInterview = () => {
         }
     }, [ setLoading ])
 
+    // Deliberately does NOT set global loading — the practice panel manages its
+    // own submitting state so the page stays interactive while Gemini scores.
+    const evaluateAnswerResponse = useCallback(async (payload) => {
+        try {
+            const response = await evaluateAnswer(payload)
+            return response.data
+        } catch (error) {
+            console.error("Evaluate answer error:", error)
+            throw error
+        }
+    }, [])
+
+    // Same non-blocking pattern: the mock-interview modal owns its transcription
+    // state while the audio is being sent to Gemini.
+    const transcribeAnswer = useCallback(async (audioBlob) => {
+        try {
+            const response = await transcribeAudio(audioBlob)
+            return response.data
+        } catch (error) {
+            console.error("Transcribe answer error:", error)
+            throw error
+        }
+    }, [])
+
+    // Non-blocking like the above — the Progress panel renders its own
+    // loading/empty states rather than flipping the whole page to a spinner.
+    const getPracticeStats = useCallback(async ({ reportId } = {}) => {
+        try {
+            const response = await fetchPracticeStats({ reportId })
+            return response.data
+        } catch (error) {
+            console.error("Get practice stats error:", error)
+            throw error
+        }
+    }, [])
+
+    const getPracticeAttempts = useCallback(async ({ reportId, section, mode, limit } = {}) => {
+        try {
+            const response = await fetchPracticeAttempts({ reportId, section, mode, limit })
+            return response.data
+        } catch (error) {
+            console.error("Get practice attempts error:", error)
+            throw error
+        }
+    }, [])
+
     useEffect(() => {
         if (interviewId) {
             getReportById(interviewId)
@@ -83,6 +129,6 @@ export const useInterview = () => {
         }
     }, [ interviewId, getReportById, getReports ])
 
-    return { loading, report, reports, generateReport, getReportById, getReports, getResumePdf }
+    return { loading, report, reports, generateReport, getReportById, getReports, getResumePdf, evaluateAnswerResponse, transcribeAnswer, getPracticeStats, getPracticeAttempts }
 
 }

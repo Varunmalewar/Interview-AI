@@ -60,3 +60,75 @@ export const generateResumePdf = async ({ interviewReportId }) => {
 
     return response.data
 }
+
+
+/**
+ * @description Service to evaluate a user's answer to an interview question against the model answer.
+ *              Every evaluation is persisted as a PracticeAttempt (backend) so the Progress
+ *              dashboard can aggregate it. mode/reportId/section/sourceQuestion are optional
+ *              metadata for that attempt.
+ */
+export const evaluateAnswer = async ({ question, intention, modelAnswer, userAnswer, mode = 'practice', reportId, section, sourceQuestion }) => {
+    const response = await api.post("/api/interview/evaluate", {
+        question,
+        intention,
+        modelAnswer,
+        userAnswer,
+        mode,
+        reportId,
+        section,
+        sourceQuestion
+    })
+
+    return response.data
+}
+
+
+/**
+ * @description Service to transcribe a recorded voice answer (audio/wav blob) to text.
+ *              The audio bytes go to the backend, which forwards them to Gemini —
+ *              the API key stays server-side.
+ */
+export const transcribeAudio = async (audioBlob) => {
+    const formData = new FormData()
+    formData.append("audio", audioBlob, "recording.wav")
+
+    const response = await api.post("/api/interview/transcribe", formData, {
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    })
+
+    return response.data
+}
+
+
+/**
+ * @description Service to fetch aggregated practice stats for the Progress
+ *              dashboard. Scoped to one report when reportId is provided,
+ *              otherwise across all of the user's attempts.
+ */
+export const getPracticeStats = async ({ reportId } = {}) => {
+    const response = await api.get("/api/interview/practice/stats", {
+        params: reportId ? { report: reportId } : {}
+    })
+
+    return response.data
+}
+
+
+/**
+ * @description Service to fetch recent practice attempts (newest first).
+ */
+export const getPracticeAttempts = async ({ reportId, section, mode, limit } = {}) => {
+    const response = await api.get("/api/interview/practice/attempts", {
+        params: {
+            ...(reportId ? { report: reportId } : {}),
+            ...(section ? { section } : {}),
+            ...(mode ? { mode } : {}),
+            ...(limit ? { limit } : {})
+        }
+    })
+
+    return response.data
+}

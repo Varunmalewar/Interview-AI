@@ -41,5 +41,37 @@ interviewRouter.get("/", authmiddlewares.authUser, interviewController.getAllInt
 interviewRouter.post("/resume/pdf/:interviewReportId", authmiddlewares.authUser, interviewController.generateResumePdfController)
 
 
+/**
+ * @route POST /api/interview/evaluate
+ * @description evaluate a user's answer to an interview question against the model answer.
+ * @access private
+ */
+interviewRouter.post("/evaluate", authmiddlewares.authUser, interviewController.evaluateAnswerController)
+
+
+/**
+ * @route POST /api/interview/transcribe
+ * @description transcribe a spoken answer (WAV upload) into text using Gemini audio input.
+ * @access private
+ */
+interviewRouter.post("/transcribe", authmiddlewares.authUser, upload.audioUpload.single("audio"), interviewController.transcribeAudioController)
+
+
+/**
+ * @route GET /api/interview/practice/stats
+ * @description aggregated practice stats for the Progress dashboard (readiness, history, streak).
+ * @access private
+ */
+interviewRouter.get("/practice/stats", authmiddlewares.authUser, interviewController.practiceStatsController)
+
+
+/**
+ * @route GET /api/interview/practice/attempts
+ * @description recent practice attempts for the logged-in user (optionally filtered by report/section/mode).
+ * @access private
+ */
+interviewRouter.get("/practice/attempts", authmiddlewares.authUser, interviewController.practiceAttemptsController)
+
+
 
 module.exports = interviewRouter
