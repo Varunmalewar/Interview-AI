@@ -1,11 +1,11 @@
 # 🎯 Interview AI — AI-Powered Interview Preparation Platform
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://interview-aj80ezhm7-varuns-projects-05a00148.vercel.app/)
+[![Live Demo](https://interview-ai-phi-one.vercel.app/)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/Varunmalewar/Interview-AI)
 
 An end-to-end full-stack web application that leverages **Google Gemini Generative AI** to analyze your resume and target job descriptions, generating tailored interview strategies, technical/behavioral question banks, skill gap analyses, day-wise roadmaps, and ATS-optimized tailored resumes — and then takes you from preparation to practice with an **AI-driven mock interview module** (timed & voice modes), instant answer evaluation with smart follow-ups, and a progress dashboard that tracks your readiness over time.
 
-🔗 **Live Application URL**: [https://interview-aj80ezhm7-varuns-projects-05a00148.vercel.app/](https://interview-aj80ezhm7-varuns-projects-05a00148.vercel.app/)
+🔗 **Live Application URL**: [https://interview-ai-phi-one.vercel.app/)
 
 ---
 
